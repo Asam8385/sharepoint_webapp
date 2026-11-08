@@ -1,782 +1,448 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interactive 4-Page SPA Template</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Chart.js CDN for Analytics Page -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <!-- Google Fonts -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sweet Layers Bakery | Custom Cakes & Pastries</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Custom Smooth Fade Transitions for Pages */
-    .page-view {
-      display: none;
-      opacity: 0;
-      transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
-      transform: translateY(6px);
-    }
-    
-    .page-view.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
+    :root {
+      --primary: #d97706;
+      --primary-dark: #b45309;
+      --bg-dark: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #f43f5e;
     }
 
-    /* Custom scrollbars */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
-    ::-webkit-scrollbar-track {
-      background: #0f172a;
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 4px;
+
+    /* Header Navigation */
+    header {
+      background-color: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--card-border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    nav {
+      display: flex;
+      gap: 0.5rem;
+      background: var(--card-bg);
+      padding: 0.25rem;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-main);
+    }
+
+    .nav-btn.active {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(135deg, #2a1b18 0%, #1e293b 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 3.5rem 2.5rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.75rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-cta {
+      display: inline-block;
+      background-color: var(--primary);
+      color: #fff;
+      padding: 0.85rem 1.75rem;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-cta:hover {
+      background-color: var(--primary-dark);
+    }
+
+    /* Section Grid */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .card-tag {
+      align-self: flex-start;
+      background: rgba(217, 119, 6, 0.15);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background-color: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
     }
   </style>
 </head>
-<body class="h-full flex flex-col font-sans antialiased text-slate-200 bg-slate-950 selection:bg-brand-500 selection:text-white">
+<body>
 
-  <!-- TOP NAVIGATION BAR -->
-  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        
-        <!-- Logo & Branding -->
-        <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('page-home')">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/20">
-            <i class="fa-solid fa-layer-group text-lg"></i>
-          </div>
-          <div>
-            <span class="font-bold text-lg text-white tracking-tight">Enterprise Hub</span>
-            <span class="hidden sm:inline-block text-xs bg-brand-500/20 text-brand-400 border border-brand-500/30 px-2 py-0.5 rounded-full ml-2">SPA Web App</span>
-          </div>
-        </div>
-
-        <!-- Desktop Navigation Tabs (4 Pages) -->
-        <nav class="hidden md:flex space-x-1" aria-label="Tabs">
-          <button id="nav-page-home" onclick="navigateTo('page-home')" 
-                  class="nav-tab px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center space-x-2 text-white bg-slate-800">
-            <i class="fa-solid fa-house text-brand-400"></i>
-            <span>1. Overview</span>
-          </button>
-          
-          <button id="nav-page-dashboard" onclick="navigateTo('page-dashboard')" 
-                  class="nav-tab px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
-            <i class="fa-solid fa-chart-line text-emerald-400"></i>
-            <span>2. Analytics</span>
-          </button>
-
-          <button id="nav-page-content" onclick="navigateTo('page-content')" 
-                  class="nav-tab px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
-            <i class="fa-solid fa-folder-tree text-amber-400"></i>
-            <span>3. Management</span>
-          </button>
-
-          <button id="nav-page-settings" onclick="navigateTo('page-settings')" 
-                  class="nav-tab px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
-            <i class="fa-solid fa-sliders text-purple-400"></i>
-            <span>4. Settings</span>
-          </button>
-        </nav>
-
-        <!-- Action / User Profile -->
-        <div class="flex items-center space-x-3">
-          <button onclick="showToast('Notifications checked!')" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">
-            <i class="fa-regular fa-bell"></i>
-          </button>
-          <div class="h-6 w-px bg-slate-800"></div>
-          <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 rounded-full bg-slate-700 border border-slate-600 flex items-center justify-center font-semibold text-xs text-white">
-              AM
-            </div>
-            <span class="hidden lg:inline-block text-xs font-medium text-slate-300">Asam M.</span>
-          </div>
-          <!-- Mobile Menu Button -->
-          <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-400 hover:text-white">
-            <i class="fa-solid fa-bars text-lg"></i>
-          </button>
-        </div>
-
-      </div>
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">🍰</div>
+      <div class="brand-name">Sweet Layers</div>
     </div>
-
-    <!-- Mobile Navigation Drawer -->
-    <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-4 py-3 space-y-2">
-      <button onclick="navigateTo('page-home'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800 flex items-center space-x-2">
-        <i class="fa-solid fa-house text-brand-400"></i> <span>1. Home / Overview</span>
-      </button>
-      <button onclick="navigateTo('page-dashboard'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800 flex items-center space-x-2">
-        <i class="fa-solid fa-chart-line text-emerald-400"></i> <span>2. Analytics & Dashboard</span>
-      </button>
-      <button onclick="navigateTo('page-content'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800 flex items-center space-x-2">
-        <i class="fa-solid fa-folder-tree text-amber-400"></i> <span>3. Content & Data</span>
-      </button>
-      <button onclick="navigateTo('page-settings'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800 flex items-center space-x-2">
-        <i class="fa-solid fa-sliders text-purple-400"></i> <span>4. Settings & Config</span>
-      </button>
-    </div>
+    <nav>
+      <button class="nav-btn active" onclick="switchTab('home')">Home</button>
+      <button class="nav-btn" onclick="switchTab('cakes')">Cakes Menu</button>
+      <button class="nav-btn" onclick="switchTab('custom')">Custom Orders</button>
+      <button class="nav-btn" onclick="switchTab('contact')">Contact & Info</button>
+    </nav>
   </header>
 
-  <!-- MAIN VIEWPORT CONTAINER -->
-  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
-    <!-- ================= PAGE 1: HOME / OVERVIEW ================= -->
-    <section id="page-home" class="page-view active space-y-6">
-      
-      <!-- Hero Banner -->
-      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-brand-700 via-brand-600 to-indigo-700 p-6 sm:p-8 shadow-2xl">
-        <div class="relative z-10 max-w-2xl">
-          <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur mb-3">
-            Single Page Architecture
-          </span>
-          <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Seamless 4-Page Web Application
-          </h1>
-          <p class="mt-2 text-slate-100 text-sm sm:text-base leading-relaxed">
-            This application runs all 4 sections within a single HTML file using client-side route switching. Fast, responsive, and easy to deploy anywhere.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <button onclick="navigateTo('page-dashboard')" class="bg-white text-slate-900 hover:bg-slate-100 px-4 py-2.5 rounded-lg text-sm font-semibold shadow transition">
-              Explore Analytics <i class="fa-solid fa-arrow-right ml-1"></i>
-            </button>
-            <button onclick="navigateTo('page-settings')" class="bg-slate-900/40 hover:bg-slate-900/60 text-white border border-white/20 px-4 py-2.5 rounded-lg text-sm font-semibold transition">
-              Configure App
-            </button>
-          </div>
-        </div>
-        <!-- Decorative SVG graphic -->
-        <div class="absolute -right-8 -bottom-10 opacity-20 pointer-events-none">
-          <i class="fa-solid fa-cubes text-[220px] text-white"></i>
-        </div>
+  <!-- Main Content Areas -->
+  <main>
+    <!-- TAB 1: HOME -->
+    <section id="home" class="tab-content active">
+      <div class="hero">
+        <h1>Handcrafted Custom Cakes & Artisanal Bakes</h1>
+        <p>From multi-tiered wedding showstoppers to signature birthday creations, we bake everything fresh with organic ingredients and detailed artistry.</p>
+        <button class="btn-cta" onclick="switchTab('cakes')">Browse Specialty Cakes</button>
       </div>
 
-      <!-- Quick Action Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        <div onclick="navigateTo('page-dashboard')" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-brand-500/50 p-5 rounded-xl transition duration-200 group">
-          <div class="flex items-center justify-between">
-            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <i class="fa-solid fa-chart-pie text-lg"></i>
-            </div>
-            <i class="fa-solid fa-chevron-right text-xs text-slate-600 group-hover:text-brand-400 group-hover:translate-x-1 transition"></i>
-          </div>
-          <h3 class="mt-4 font-semibold text-slate-200 text-base">Dashboard</h3>
-          <p class="text-xs text-slate-400 mt-1">View real-time traffic and key metric charts.</p>
-        </div>
-
-        <div onclick="navigateTo('page-content')" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-5 rounded-xl transition duration-200 group">
-          <div class="flex items-center justify-between">
-            <div class="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center">
-              <i class="fa-solid fa-database text-lg"></i>
-            </div>
-            <i class="fa-solid fa-chevron-right text-xs text-slate-600 group-hover:text-amber-400 group-hover:translate-x-1 transition"></i>
-          </div>
-          <h3 class="mt-4 font-semibold text-slate-200 text-base">Content Management</h3>
-          <p class="text-xs text-slate-400 mt-1">Manage database records and file entries.</p>
-        </div>
-
-        <div onclick="navigateTo('page-settings')" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-purple-500/50 p-5 rounded-xl transition duration-200 group">
-          <div class="flex items-center justify-between">
-            <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center">
-              <i class="fa-solid fa-gear text-lg"></i>
-            </div>
-            <i class="fa-solid fa-chevron-right text-xs text-slate-600 group-hover:text-purple-400 group-hover:translate-x-1 transition"></i>
-          </div>
-          <h3 class="mt-4 font-semibold text-slate-200 text-base">App Settings</h3>
-          <p class="text-xs text-slate-400 mt-1">Configure domain policy and CSP parameters.</p>
-        </div>
-
-        <div onclick="showToast('Copy code snippet ready!')" class="cursor-pointer bg-slate-900 border border-slate-800 hover:border-brand-500/50 p-5 rounded-xl transition duration-200 group">
-          <div class="flex items-center justify-between">
-            <div class="w-10 h-10 rounded-lg bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center">
-              <i class="fa-solid fa-code text-lg"></i>
-            </div>
-            <i class="fa-solid fa-copy text-xs text-slate-600 group-hover:text-brand-400 transition"></i>
-          </div>
-          <h3 class="mt-4 font-semibold text-slate-200 text-base">Developer Tools</h3>
-          <p class="text-xs text-slate-400 mt-1">Copy ready-to-use boilerplate code snippets.</p>
-        </div>
-
-      </div>
-
-      <!-- Activity Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Recent Status -->
-        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="font-bold text-slate-200 text-lg flex items-center gap-2">
-              <i class="fa-solid fa-list-check text-brand-400"></i> Page Navigation Blueprint
-            </h2>
-            <span class="text-xs text-slate-400">4 Active Views Loaded</span>
-          </div>
-
-          <div class="space-y-3">
-            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-              <div class="flex items-center space-x-3">
-                <span class="w-7 h-7 rounded-full bg-brand-500/20 text-brand-400 text-xs font-bold flex items-center justify-center">1</span>
-                <div>
-                  <p class="text-sm font-medium text-slate-200">Page 1: Home / Overview</p>
-                  <p class="text-xs text-slate-400">Main hub showcasing application capabilities.</p>
-                </div>
-              </div>
-              <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded">Active Now</span>
-            </div>
-
-            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-              <div class="flex items-center space-x-3">
-                <span class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center">2</span>
-                <div>
-                  <p class="text-sm font-medium text-slate-200">Page 2: Dashboard & Analytics</p>
-                  <p class="text-xs text-slate-400">Interactive charts powered by Chart.js library.</p>
-                </div>
-              </div>
-              <button onclick="navigateTo('page-dashboard')" class="text-xs text-brand-400 hover:underline">View Page</button>
-            </div>
-
-            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-              <div class="flex items-center space-x-3">
-                <span class="w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold flex items-center justify-center">3</span>
-                <div>
-                  <p class="text-sm font-medium text-slate-200">Page 3: Management Table</p>
-                  <p class="text-xs text-slate-400">Interactive table with dynamic row additions & search filter.</p>
-                </div>
-              </div>
-              <button onclick="navigateTo('page-content')" class="text-xs text-brand-400 hover:underline">View Page</button>
-            </div>
-
-            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-              <div class="flex items-center space-x-3">
-                <span class="w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 text-xs font-bold flex items-center justify-center">4</span>
-                <div>
-                  <p class="text-sm font-medium text-slate-200">Page 4: App Configuration</p>
-                  <p class="text-xs text-slate-400">Settings panel, dark mode toggle, and policy controls.</p>
-                </div>
-              </div>
-              <button onclick="navigateTo('page-settings')" class="text-xs text-brand-400 hover:underline">View Page</button>
-            </div>
+      <h2 class="section-title">Today's Fresh Bakes</h2>
+      <div class="grid">
+        <div class="card">
+          <span class="card-tag">Bestseller</span>
+          <h3>Belgian Dark Chocolate Fudge</h3>
+          <p>Rich 70% dark chocolate sponge layered with ganache and crushed roasted hazelnuts.</p>
+          <div class="card-footer">
+            <span class="price">$48.00</span>
           </div>
         </div>
-
-        <!-- Quick Info Side Box -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
-          <div>
-            <h2 class="font-bold text-slate-200 text-lg mb-2">How It Works</h2>
-            <p class="text-xs text-slate-400 leading-relaxed mb-4">
-              All 4 pages reside inside a single HTML file under `<section id="page-name">`. Clicking any tab calls the JS `navigateTo('id')` function to smoothly switch sections without reloads.
-            </p>
-            <div class="bg-slate-950 p-3 rounded-lg font-mono text-xs text-emerald-400 border border-slate-800">
-              function navigateTo(pageId) {<br/>
-              &nbsp;&nbsp;// hides active page<br/>
-              &nbsp;&nbsp;// displays target page<br/>
-              }
-            </div>
+        <div class="card">
+          <span class="card-tag">Seasonal</span>
+          <h3>Raspberry Pistachio Velvet</h3>
+          <p>Pistachio sponge paired with fresh raspberry compote and real vanilla bean buttercream.</p>
+          <div class="card-footer">
+            <span class="price">$52.00</span>
           </div>
-          <button onclick="showModal()" class="mt-4 w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-2 rounded-lg text-sm transition">
-            <i class="fa-solid fa-plus-circle mr-1"></i> Add Custom Page Section
-          </button>
+        </div>
+        <div class="card">
+          <span class="card-tag">Classic</span>
+          <h3>Classic Salted Caramel Crunch</h3>
+          <p>Moist brown-sugar cake filled with house-made salted caramel and toasted pecan praline.</p>
+          <div class="card-footer">
+            <span class="price">$45.00</span>
+          </div>
         </div>
       </div>
-
     </section>
 
-    <!-- ================= PAGE 2: DASHBOARD & ANALYTICS ================= -->
-    <section id="page-dashboard" class="page-view space-y-6">
-      
-      <!-- Top Metrics -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-slate-400">Total Requests</span>
-            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">+14.2%</span>
-          </div>
-          <p class="text-2xl font-bold text-slate-100 mt-2">128,430</p>
-          <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
-            <div class="bg-brand-500 h-full w-[70%]"></div>
+    <!-- TAB 2: CAKES MENU -->
+    <section id="cakes" class="tab-content">
+      <h2 class="section-title">Signature Cakes Catalogue</h2>
+      <div class="grid">
+        <div class="card">
+          <span class="card-tag">Wedding / Special Events</span>
+          <h3>Floral Vanilla & Earl Grey</h3>
+          <p>Infused Earl Grey tea layers paired with lavender-scented Swiss meringue buttercream.</p>
+          <div class="card-footer">
+            <span class="price">From $65.00</span>
           </div>
         </div>
-
-        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-slate-400">Active Users</span>
-            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">+8.1%</span>
-          </div>
-          <p class="text-2xl font-bold text-slate-100 mt-2">4,291</p>
-          <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
-            <div class="bg-emerald-500 h-full w-[55%]"></div>
+        <div class="card">
+          <span class="card-tag">Gluten-Friendly</span>
+          <h3>Almond Orange Blossom</h3>
+          <p>Flourless almond meal cake soaked in citrus syrup and topped with whipped mascarpone.</p>
+          <div class="card-footer">
+            <span class="price">From $50.00</span>
           </div>
         </div>
-
-        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-slate-400">Avg. Response Time</span>
-            <span class="text-xs bg-brand-500/20 text-brand-400 px-2 py-0.5 rounded">-12ms</span>
-          </div>
-          <p class="text-2xl font-bold text-slate-100 mt-2">42 ms</p>
-          <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
-            <div class="bg-purple-500 h-full w-[85%]"></div>
+        <div class="card">
+          <span class="card-tag">Party Favorite</span>
+          <h3>Confetti Celebration Sponge</h3>
+          <p>Fluffy vanilla bean cake filled with rainbow sprinkles and silky buttercream frosting.</p>
+          <div class="card-footer">
+            <span class="price">From $42.00</span>
           </div>
         </div>
-
-        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-slate-400">System Uptime</span>
-            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">Optimal</span>
-          </div>
-          <p class="text-2xl font-bold text-slate-100 mt-2">99.98%</p>
-          <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
-            <div class="bg-amber-500 h-full w-[98%]"></div>
+        <div class="card">
+          <span class="card-tag">Signature</span>
+          <h3>Espresso Tiramisu Layer</h3>
+          <p>Kahlua-soaked sponge with espresso cream filling and dusted cocoa powder.</p>
+          <div class="card-footer">
+            <span class="price">From $55.00</span>
           </div>
         </div>
-
       </div>
-
-      <!-- Charts Section -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <!-- Main Line Chart -->
-        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 p-5 rounded-xl">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-bold text-slate-200">Traffic & Load Trends</h3>
-            <div class="flex space-x-2">
-              <button onclick="updateChartData('7d')" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded text-slate-300">7 Days</button>
-              <button onclick="updateChartData('30d')" class="text-xs bg-brand-600 px-3 py-1 rounded text-white font-medium">30 Days</button>
-            </div>
-          </div>
-          <div class="relative h-64 w-full">
-            <canvas id="analyticsChart"></canvas>
-          </div>
-        </div>
-
-        <!-- Doughnut Distribution Chart -->
-        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex flex-col justify-between">
-          <h3 class="font-bold text-slate-200 mb-2">Resource Allocation</h3>
-          <div class="relative h-48 w-full my-auto flex items-center justify-center">
-            <canvas id="pieChart"></canvas>
-          </div>
-          <div class="grid grid-cols-2 gap-2 text-xs text-slate-400 mt-4">
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span>
-              <span>API Gateway</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
-              <span>Database</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
-              <span>Storage</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-purple-500 inline-block"></span>
-              <span>Static Assets</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
     </section>
 
-    <!-- ================= PAGE 3: CONTENT / MANAGEMENT ================= -->
-    <section id="page-content" class="page-view space-y-6">
-      
-      <!-- Table Controls -->
-      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="relative w-full sm:w-80">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-          <input type="text" id="tableSearch" onkeyup="filterTable()" placeholder="Search records..." 
-                 class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500" />
-        </div>
-        
-        <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
-          <button onclick="showToast('Data exported to JSON!')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
-            <i class="fa-solid fa-download"></i> Export
-          </button>
-          <button onclick="showModal()" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
-            <i class="fa-solid fa-plus"></i> Add Item
-          </button>
-        </div>
-      </div>
-
-      <!-- Data Table -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm text-slate-300" id="dataTable">
-            <thead class="bg-slate-950 text-xs font-semibold uppercase text-slate-400 border-b border-slate-800">
-              <tr>
-                <th class="px-6 py-3.5">ID</th>
-                <th class="px-6 py-3.5">Resource Name</th>
-                <th class="px-6 py-3.5">Category</th>
-                <th class="px-6 py-3.5">Status</th>
-                <th class="px-6 py-3.5">Last Updated</th>
-                <th class="px-6 py-3.5 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800/60" id="tableBody">
-              <!-- Row 1 -->
-              <tr class="hover:bg-slate-800/40 transition">
-                <td class="px-6 py-4 font-mono text-xs text-slate-500">RES-8901</td>
-                <td class="px-6 py-4 font-medium text-slate-200">SharePoint Embedded Adapter</td>
-                <td class="px-6 py-4 text-xs text-slate-400">Integration</td>
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active
-                  </span>
-                </td>
-                <td class="px-6 py-4 text-xs text-slate-400">2 mins ago</td>
-                <td class="px-6 py-4 text-right space-x-2">
-                  <button onclick="showToast('Editing RES-8901')" class="text-slate-400 hover:text-brand-400"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button onclick="deleteRow(this)" class="text-slate-400 hover:text-rose-400"><i class="fa-solid fa-trash"></i></button>
-                </td>
-              </tr>
-              <!-- Row 2 -->
-              <tr class="hover:bg-slate-800/40 transition">
-                <td class="px-6 py-4 font-mono text-xs text-slate-500">RES-8902</td>
-                <td class="px-6 py-4 font-medium text-slate-200">CSP Domain Whitelist Rule</td>
-                <td class="px-6 py-4 text-xs text-slate-400">Security</td>
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active
-                  </span>
-                </td>
-                <td class="px-6 py-4 text-xs text-slate-400">1 hour ago</td>
-                <td class="px-6 py-4 text-right space-x-2">
-                  <button onclick="showToast('Editing RES-8902')" class="text-slate-400 hover:text-brand-400"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button onclick="deleteRow(this)" class="text-slate-400 hover:text-rose-400"><i class="fa-solid fa-trash"></i></button>
-                </td>
-              </tr>
-              <!-- Row 3 -->
-              <tr class="hover:bg-slate-800/40 transition">
-                <td class="px-6 py-4 font-mono text-xs text-slate-500">RES-8903</td>
-                <td class="px-6 py-4 font-medium text-slate-200">Single Page Tab Switcher JS</td>
-                <td class="px-6 py-4 text-xs text-slate-400">Frontend Component</td>
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Pending Review
-                  </span>
-                </td>
-                <td class="px-6 py-4 text-xs text-slate-400">3 hours ago</td>
-                <td class="px-6 py-4 text-right space-x-2">
-                  <button onclick="showToast('Editing RES-8903')" class="text-slate-400 hover:text-brand-400"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button onclick="deleteRow(this)" class="text-slate-400 hover:text-rose-400"><i class="fa-solid fa-trash"></i></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Table Footer -->
-        <div class="bg-slate-950 px-6 py-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-          <span>Showing 3 entries</span>
-          <div class="flex space-x-2">
-            <button class="px-3 py-1 rounded bg-slate-900 border border-slate-800 text-slate-500 cursor-not-allowed">Previous</button>
-            <button class="px-3 py-1 rounded bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700">Next</button>
+    <!-- TAB 3: CUSTOM ORDERS -->
+    <section id="custom" class="tab-content">
+      <h2 class="section-title">Request a Custom Cake Quote</h2>
+      <div class="card" style="max-width: 650px; margin: 0 auto;">
+        <form onsubmit="handleOrderSubmit(event)">
+          <div class="form-group">
+            <label for="name">Your Full Name</label>
+            <input type="text" id="name" class="form-control" placeholder="Jane Doe" required>
           </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ================= PAGE 4: SETTINGS & CONFIGURATION ================= -->
-    <section id="page-settings" class="page-view space-y-6">
-      
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <h2 class="text-xl font-bold text-slate-100 mb-1">Application Configuration</h2>
-        <p class="text-xs text-slate-400 mb-6">Manage app metadata, environment variables, and script execution rules.</p>
-
-        <form onsubmit="event.preventDefault(); showToast('Settings saved successfully!');" class="space-y-6 max-w-2xl">
-          
-          <!-- App Title Field -->
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Application Title</label>
-            <input type="text" value="Enterprise Hub 4-Page Web App" 
-                   class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2 text-sm text-slate-200 focus:outline-none focus:border-brand-500">
+          <div class="form-group">
+            <label for="event">Event Type & Date</label>
+            <input type="text" id="event" class="form-control" placeholder="Wedding / Birthday - MM/DD/YYYY" required>
           </div>
-
-          <!-- Base Domain URL -->
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Allowed Origin (CSP Whitelist Domain)</label>
-            <input type="text" value="https://admin.cloud.microsoft" 
-                   class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2 text-sm text-slate-200 focus:outline-none focus:border-brand-500">
-            <p class="text-xs text-slate-500 mt-1">This domain must match your Trusted Script Sources in the admin portal.</p>
+          <div class="form-group">
+            <label for="flavor">Preferred Flavor & Size</label>
+            <input type="text" id="flavor" class="form-control" placeholder="e.g. 2-Tier Dark Chocolate, 8-inch & 6-inch" required>
           </div>
-
-          <!-- Toggles -->
-          <div class="space-y-4 pt-2">
-            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-              <div>
-                <p class="text-sm font-medium text-slate-200">Smooth Tab Transitions</p>
-                <p class="text-xs text-slate-400">Enable fade and translate animations when switching sections.</p>
-              </div>
-              <input type="checkbox" checked class="w-4 h-4 rounded border-slate-800 bg-slate-900 text-brand-600 focus:ring-brand-500">
-            </div>
-
-            <div class="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-              <div>
-                <p class="text-sm font-medium text-slate-200">Strict Content Security Policy (CSP)</p>
-                <p class="text-xs text-slate-400">Block inline script evaluations and unsafe external assets.</p>
-              </div>
-              <input type="checkbox" checked class="w-4 h-4 rounded border-slate-800 bg-slate-900 text-brand-600 focus:ring-brand-500">
-            </div>
+          <div class="form-group">
+            <label for="details">Design Ideas & Theme Notes</label>
+            <textarea id="details" class="form-control" rows="4" placeholder="Describe color schemes, themes, dietary restrictions, or floral preferences..."></textarea>
           </div>
-
-          <!-- Form Buttons -->
-          <div class="flex items-center space-x-3 pt-4 border-t border-slate-800">
-            <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white font-medium px-5 py-2 rounded-lg text-sm transition">
-              Save Changes
-            </button>
-            <button type="button" onclick="showToast('Reverted settings')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-5 py-2 rounded-lg text-sm transition">
-              Cancel
-            </button>
-          </div>
-
+          <button type="submit" class="btn-cta" style="width: 100%;">Submit Custom Inquiry</button>
         </form>
       </div>
-
     </section>
 
+    <!-- TAB 4: CONTACT & INFO -->
+    <section id="contact" class="tab-content">
+      <h2 class="section-title">Bakery Location & Hours</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Store Hours</h3>
+          <p><strong>Mon - Fri:</strong> 7:30 AM – 6:00 PM<br>
+             <strong>Saturday:</strong> 8:00 AM – 5:00 PM<br>
+             <strong>Sunday:</strong> Closed (Pickups only)</p>
+        </div>
+        <div class="card">
+          <h3>Pickup Location</h3>
+          <p>104 Baker Street, Suite B<br>Downtown Market District<br>Phone: (555) 234-5678</p>
+        </div>
+        <div class="card">
+          <h3>Lead Time Notice</h3>
+          <p>Custom multi-tier cakes require at least <strong>14 days notice</strong>. Signature cakes can be ordered <strong>48 hours</strong> in advance.</p>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- MODAL FOR ADDING ITEMS -->
-  <div id="itemModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-6 shadow-2xl relative">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="font-bold text-lg text-slate-100">Add New Resource</h3>
-        <button onclick="hideModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-      </div>
+  <!-- Footer -->
+  <footer>
+    &copy; 2026 Sweet Layers Bakery. All rights reserved. Powered by Single-Page Architecture.
+  </footer>
 
-      <div class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Resource Name</label>
-          <input type="text" id="modalName" placeholder="e.g. Analytics Webhook" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Category</label>
-          <select id="modalCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200">
-            <option>Integration</option>
-            <option>Security</option>
-            <option>Frontend Component</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="mt-6 flex justify-end space-x-3">
-        <button onclick="hideModal()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg text-sm">Cancel</button>
-        <button onclick="addResourceFromModal()" class="px-4 py-2 bg-brand-600 text-white rounded-lg text-sm font-medium">Add Resource</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST NOTIFICATION CONTAINER -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 bg-brand-600 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center space-x-2 text-sm opacity-0 pointer-events-none transition-all duration-300 transform translate-y-3">
-    <i class="fa-solid fa-circle-check"></i>
-    <span id="toastMsg">Notification message</span>
-  </div>
-
-  <!-- JAVASCRIPT CONTROLLERS -->
   <script>
-    // PAGE SWITCHING ROUTER
-    function navigateTo(pageId) {
-      // Hide all pages
-      document.querySelectorAll('.page-view').forEach(page => {
-        page.classList.remove('active');
+    function switchTab(tabId) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
       });
 
-      // Show targeted page
-      const targetPage = document.getElementById(pageId);
-      if (targetPage) {
-        targetPage.classList.add('active');
-      }
-
-      // Update Navigation Tab Styles
-      document.querySelectorAll('.nav-tab').forEach(tab => {
-        tab.classList.remove('text-white', 'bg-slate-800');
-        tab.classList.add('text-slate-400');
+      // Deactivate all buttons
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
       });
 
-      const activeTab = document.getElementById(`nav-${pageId}`);
-      if (activeTab) {
-        activeTab.classList.remove('text-slate-400');
-        activeTab.classList.add('text-white', 'bg-slate-800');
-      }
-
-      // If switching to Dashboard page, trigger chart renders
-      if (pageId === 'page-dashboard') {
-        renderCharts();
-      }
+      // Show requested tab & activate button
+      document.getElementById(tabId).classList.add('active');
+      event.target.classList.add('active');
     }
 
-    // MOBILE MENU TOGGLE
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    }
-
-    // TOAST NOTIFICATION HANDLER
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toastMsg');
-      toastMsg.textContent = message;
-      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
-      
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
-      }, 3000);
-    }
-
-    // MODAL HANDLERS
-    function showModal() {
-      document.getElementById('itemModal').classList.remove('hidden');
-    }
-    function hideModal() {
-      document.getElementById('itemModal').classList.add('hidden');
-    }
-
-    // DYNAMIC TABLE ADDITION
-    function addResourceFromModal() {
-      const name = document.getElementById('modalName').value.trim() || 'New Web Resource';
-      const category = document.getElementById('modalCategory').value;
-      const tbody = document.getElementById('tableBody');
-      const idNum = Math.floor(1000 + Math.random() * 9000);
-
-      const tr = document.createElement('tr');
-      tr.className = 'hover:bg-slate-800/40 transition';
-      tr.innerHTML = `
-        <td class="px-6 py-4 font-mono text-xs text-slate-500">RES-${idNum}</td>
-        <td class="px-6 py-4 font-medium text-slate-200">${name}</td>
-        <td class="px-6 py-4 text-xs text-slate-400">${category}</td>
-        <td class="px-6 py-4">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active
-          </span>
-        </td>
-        <td class="px-6 py-4 text-xs text-slate-400">Just now</td>
-        <td class="px-6 py-4 text-right space-x-2">
-          <button onclick="showToast('Editing item')" class="text-slate-400 hover:text-brand-400"><i class="fa-solid fa-pen-to-square"></i></button>
-          <button onclick="deleteRow(this)" class="text-slate-400 hover:text-rose-400"><i class="fa-solid fa-trash"></i></button>
-        </td>
-      `;
-      tbody.prepend(tr);
-      hideModal();
-      showToast('New resource added to Page 3 table!');
-    }
-
-    function deleteRow(btn) {
-      btn.closest('tr').remove();
-      showToast('Record deleted.');
-    }
-
-    function filterTable() {
-      const query = document.getElementById('tableSearch').value.toLowerCase();
-      const rows = document.querySelectorAll('#tableBody tr');
-      rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(query) ? '' : 'none';
-      });
-    }
-
-    // CHART.JS RENDERER FOR ANALYTICS PAGE
-    let analyticsChartInstance = null;
-    let pieChartInstance = null;
-
-    function renderCharts() {
-      if (analyticsChartInstance) return; // Prevent duplicate initialization
-
-      const ctx1 = document.getElementById('analyticsChart').getContext('2d');
-      analyticsChartInstance = new Chart(ctx1, {
-        type: 'line',
-        data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          datasets: [{
-            label: 'HTTP Requests',
-            data: [12000, 19000, 15000, 25000, 22000, 30000, 28000],
-            borderColor: '#3b82f6',
-            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-            fill: true,
-            tension: 0.4
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } },
-            y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }
-          }
-        }
-      });
-
-      const ctx2 = document.getElementById('pieChart').getContext('2d');
-      pieChartInstance = new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-          labels: ['API Gateway', 'Database', 'Storage', 'Static Assets'],
-          datasets: [{
-            data: [40, 25, 20, 15],
-            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#a855f7'],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } }
-        }
-      });
-    }
-
-    function updateChartData(range) {
-      if (!analyticsChartInstance) return;
-      if (range === '7d') {
-        analyticsChartInstance.data.datasets[0].data = [12000, 19000, 15000, 25000, 22000, 30000, 28000];
-      } else {
-        analyticsChartInstance.data.datasets[0].data = [45000, 52000, 68000, 61000, 75000, 89000, 95000];
-      }
-      analyticsChartInstance.update();
-      showToast(`Chart updated to ${range} dataset`);
+    function handleOrderSubmit(e) {
+      e.preventDefault();
+      alert('Thank you! Your custom cake inquiry has been received. Our bakery team will reach out via email within 24 hours.');
+      e.target.reset();
     }
   </script>
-
 </body>
 </html>
